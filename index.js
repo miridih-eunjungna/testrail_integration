@@ -57,7 +57,6 @@ const getTestRunDetails = async (runId) => {
     console.error('Error fetching test run details:', error.response?.data || error.message);
   }
 };
-
 // TestRail API에서 실패한 테스트 케이스의 코멘트 가져오기
 const getFailedTestComments = async (runId) => {
   try {
@@ -90,7 +89,6 @@ const getFailedTestComments = async (runId) => {
     return 'Error fetching failed test comments.';
   }
 };
-
 
 // 특정 테스트 실행 정보 가져오기 (runId는 92로 설정)
 getTestRunDetails(87);

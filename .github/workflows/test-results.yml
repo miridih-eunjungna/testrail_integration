@@ -37,3 +37,8 @@ jobs:
         console.log('Requesting TestRail API...');
         const response = await axios.get(url, { headers });
         console.log('Response:', response.data);  // 응답 데이터 출력
+
+        const path = require('path');
+        console.log('Current working directory:', process.cwd());
+        console.log('Absolute path to index.js:', path.resolve('src/index.js'));
+

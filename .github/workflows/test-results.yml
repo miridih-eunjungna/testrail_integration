@@ -32,7 +32,7 @@ jobs:
         TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}  # GitHub Secrets에 저장된 TestRail URL 사용
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # GitHub Secrets에 저장된 Slack Webhook URL 사용
       run: |
-        node testrail_integration/src/index.js # TestRail API 호출 및 Slack 메시지 전송하는 스크립트 실행
+        node src/index.js # TestRail API 호출 및 Slack 메시지 전송하는 스크립트 실행
 
         console.log('Requesting TestRail API...');
         const response = await axios.get(url, { headers });

@@ -9,7 +9,6 @@ console.log('TESTRAIL_API_KEY:', process.env.TESTRAIL_API_KEY);
 console.log('TESTRAIL_USER:', process.env.TESTRAIL_USER);
 console.log('TESTRAIL_URL:', process.env.TESTRAIL_URL);
 console.log('SLACK_WEBHOOK_URL:', process.env.SLACK_WEBHOOK_URL);
-console.log('테스트');
 
 
 // Base64로 사용자 인증 정보 인코딩

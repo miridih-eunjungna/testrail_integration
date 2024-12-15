@@ -26,16 +26,17 @@ jobs:
         npm install  # 의존성 설치 (package.json이 있는 디렉토리에서 실행)
         
     - name: Run Node script
-      run: node ../../testrail_integration/index.js
+      run: node $GITHUB_WORKSPACE/testrail_integration/index.js  # 절대 경로로 수정
         
       env:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}  # GitHub Secrets에 저장된 TestRail User 사용
         TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}  # GitHub Secrets에 저장된 TestRail URL 사용
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # GitHub Secrets에 저장된 Slack Webhook URL 사용
+
     - name: Check TestRail Status
-        run:|
-        node testrail_integration/index.js
+      run: |
+        node $GITHUB_WORKSPACE/testrail_integration/index.js  # 절대 경로로 수정
 
         console.log('Requesting TestRail API...');
         const response = await axios.get(url, { headers });
@@ -43,5 +44,4 @@ jobs:
 
         const path = require('path');
         console.log('Current working directory:', process.cwd());
-        console.log('Absolute path to index.js:', path.resolve('src/index.js'));
-
+        console.log('Absolute path to index.js:', path.resolve($GITHUB_WORKSPACE, 'testrail_integration/index.js'));

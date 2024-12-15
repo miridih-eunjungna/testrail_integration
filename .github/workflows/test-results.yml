@@ -1,0 +1,35 @@
+name: TestRail Integration
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push될 때마다 실행
+  pull_request:
+    branches:
+      - main  # main 브랜치에 PR이 생길 때마다 실행
+
+jobs:
+  testrail-integration:
+    runs-on: ubuntu-latest  # GitHub Actions에서 사용할 환경 (Ubuntu)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # 현재 저장소의 코드를 가져옴
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Node.js 버전 설정 (필요에 따라 수정)
+
+    - name: Install dependencies
+      run: |
+        npm install  # 의존성 설치 (package.json이 있는 디렉토리에서 실행)
+
+    - name: Run TestRail Slack Integration Script
+      env:
+        TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
+        TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}  # GitHub Secrets에 저장된 TestRail User 사용
+        TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}  # GitHub Secrets에 저장된 TestRail URL 사용
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # GitHub Secrets에 저장된 Slack Webhook URL 사용
+      run: |
+        node src/index.js  # TestRail API 호출 및 Slack 메시지 전송하는 스크립트 실행

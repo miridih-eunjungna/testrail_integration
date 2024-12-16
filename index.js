@@ -63,6 +63,7 @@ const getFailedTestComments = async (runId) => {
         'Content-Type': 'application/json',
       },
     });
+    
 
     console.log('Response Data:', response.data); // 응답 데이터 확인
 
@@ -110,9 +111,15 @@ const getLatestTestRunId = async () => {
 
 // 자동으로 가장 최신 runId를 가져와서 테스트 실행 정보 호출
 const fetchAndNotifyTestRun = async () => {
-  const runId = await getLatestTestRunId();
-  if (runId) {
-    await getTestRunDetails(runId);
+  try {
+    const runId = await getLatestTestRunId();
+    if (runId) {
+      await getTestRunDetails(runId);
+    }
+  } catch (error) {
+    console.error('Error during TestRail integration:', error.message);
+    // 예외 발생 시 기본 Slack 메시지 생성
+    fs.writeFileSync('slack_message.txt', 'TestRail integration failed due to authentication error.');
   }
 };
 

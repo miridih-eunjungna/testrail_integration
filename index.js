@@ -9,24 +9,37 @@ const credentials = `${process.env.TESTRAIL_USER}:${process.env.TESTRAIL_API_KEY
 const base64Credentials = Buffer.from(credentials).toString('base64');
 
 // Slack 메시지 전송 함수
-const sendToSlack = async (testRunDetails, failedComments) => {
-  try {
-    const slackMessage = {
-      text: `Test Run Details:\n
-             Name: ${testRunDetails.name}\n
-             Passed: ${testRunDetails.passed_count}\n
-             Failed: ${testRunDetails.failed_count}\n
-             Blocked: ${testRunDetails.blocked_count}\n
-             URL: ${testRunDetails.url}\n
-             ${failedComments ? `Failed Comments:\n${failedComments}` : ''}`
-    };
+// const sendToSlack = async (testRunDetails, failedComments) => {
+//   try {
+//     const slackMessage = {
+//       text: `Test Run Details:\n
+//              Name: ${testRunDetails.name}\n
+//              Passed: ${testRunDetails.passed_count}\n
+//              Failed: ${testRunDetails.failed_count}\n
+//              Blocked: ${testRunDetails.blocked_count}\n
+//              URL: ${testRunDetails.url}\n
+//              ${failedComments ? `Failed Comments:\n${failedComments}` : ''}`
+//     };
 
-    // Slack Webhook을 사용하여 메시지 전송
-    await axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage);
-    console.log('Message sent to Slack');
-  } catch (error) {
-    console.error('Error sending message to Slack:', error);
-  }
+//     // Slack Webhook을 사용하여 메시지 전송
+//     await axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage);
+//     console.log('Message sent to Slack');
+//   } catch (error) {
+//     console.error('Error sending message to Slack:', error);
+//   }
+// };
+const fs = require('fs');
+const sendToSlack = async (testRunDetails, failedComments) => {
+  const slackMessage = `
+    Test Run Details:
+    Name: ${testRunDetails.name}
+    Passed: ${testRunDetails.passed_count}
+    Failed: ${testRunDetails.failed_count}
+    Blocked: ${testRunDetails.blocked_count}
+    URL: ${testRunDetails.url}
+    ${failedComments ? `Failed Comments:\n${failedComments}` : ''}
+  `;
+  fs.writeFileSync('slack_message.txt', slackMessage);
 };
 
 // TestRail API에서 실행 정보 가져오기

@@ -42,10 +42,14 @@ jobs:
           const slackMessage = {
             text: 'Test Run Details:\\nName: TestRunName\\nPassed: 4\\nFailed: 1\\nBlocked: 0\\nURL: TestRunURL'
           };
-          console.log('Sending Slack message to:', process.env.SLACK_WEBHOOK_URL);  # Webhook URL 로그 출력
+          console.log('Sending Slack message to:', process.env.SLACK_WEBHOOK_URL);  // Webhook URL 로그 출력
           axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage)
             .then(() => console.log('Message sent to Slack'))
             .catch(error => console.error('Error sending message to Slack:', error));
-        "
+        "  .catch(error => console.error('Error sending message to Slack:', error));
+                "
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # 환경 변수로 SLACK_WEBHOOK_URL 전달
+
+
+        

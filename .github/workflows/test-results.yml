@@ -28,7 +28,7 @@ jobs:
         cd node_modules
         ls -al
         
-        node index.js
+        node $GITHUB_WORKSPACE/index.js
 
         console.log('Requesting TestRail API...');
         const response = await axios.get(url, { headers });

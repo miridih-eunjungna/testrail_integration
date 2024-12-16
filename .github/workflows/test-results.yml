@@ -32,4 +32,19 @@ jobs:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}
         TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Send Slack Notification
+      run: |
+        echo "SLACK_WEBHOOK_URL: $SLACK_WEBHOOK_URL"  # Webhook URL 출력하여 확인
+        node -e "
+          const axios = require('axios');
+          const slackMessage = {
+            text: 'Test Run Details:\\nName: TestRunName\\nPassed: 4\\nFailed: 1\\nBlocked: 0\\nURL: TestRunURL'
+          };
+          console.log('Sending Slack message to:', process.env.SLACK_WEBHOOK_URL);  // Webhook URL 로그 출력
+          axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage)
+            .then(() => console.log('Message sent to Slack'))
+            .catch(error => console.error('Error sending message to Slack:', error));
+        "
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # 환경 변수로 SLACK_WEBHOOK_URL 전달

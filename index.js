@@ -4,7 +4,6 @@ import axios from 'axios';
 // 환경 변수 로드
 dotenv.config();
 
-
 // 환경 변수 확인
 console.log('TESTRAIL_API_KEY:', process.env.TESTRAIL_API_KEY);
 console.log('TESTRAIL_USER:', process.env.TESTRAIL_USER);

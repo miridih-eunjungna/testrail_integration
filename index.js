@@ -11,24 +11,6 @@ console.log('TESTRAIL_USER:', process.env.TESTRAIL_USER);
 console.log('TESTRAIL_URL:', process.env.TESTRAIL_URL);
 console.log('SLACK_WEBHOOK_URL:', process.env.SLACK_WEBHOOK_URL);
 
-const fs = require('fs');
-
-// TestRail API 호출 부분
-try {
-  const response = await axios.get(url, {
-    headers: {
-      Authorization: `Basic ${base64Credentials}`,
-      'Content-Type': 'application/json',
-    },
-  });
-
-  // 성공적인 경우, 응답 내용을 기록
-  fs.writeFileSync('slack_message.txt', 'TestRail Integration Success!');
-} catch (error) {
-  // 실패한 경우, 오류 메시지를 기록
-  fs.writeFileSync('slack_message.txt', `TestRail Integration encountered an error: ${error.message}`);
-}
-
 // Base64로 사용자 인증 정보 인코딩
 const credentials = `${process.env.TESTRAIL_USER}:${process.env.TESTRAIL_API_KEY}`;
 const base64Credentials = Buffer.from(credentials).toString('base64');

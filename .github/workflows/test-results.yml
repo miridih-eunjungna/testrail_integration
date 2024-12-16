@@ -3,10 +3,12 @@ name: TestRail Integration
 on:
   push:
     branches:
-      - main  # main 브랜치에 push될 때마다 실행
+      - main          # main 브랜치에 push될 때 실행
+      - testrail_v2   # testrail_v2 브랜치에 push될 때 실행
   pull_request:
     branches:
-      - main  # main 브랜치에 PR이 생길 때마다 실행
+      - main          # main 브랜치에 PR이 생성될 때 실행
+      - testrail_v2   # testrail_v2 브랜치에 PR이 생성될 때 실행
 
 jobs:
   testrail-integration:

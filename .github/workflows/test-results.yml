@@ -27,7 +27,7 @@ jobs:
         
     - name: Run Node script
       run: 
-        node $GITHUB_WORKSPACE/index.js
+        node index.js
         
       env:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
@@ -37,7 +37,7 @@ jobs:
 
     - name: Check TestRail Status
       run: |
-        npm run start
+        node index.js
 
         console.log('Requesting TestRail API...');
         const response = await axios.get(url, { headers });

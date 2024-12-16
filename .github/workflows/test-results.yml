@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - testrail_v3
+      - testrail_4
   pull_request:
     branches:
       - main
-      - testrail_v3
+      - testrail_4
 
 jobs:
   testrail-integration:

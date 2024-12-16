@@ -25,10 +25,6 @@ jobs:
       run: |
         npm install  # 의존성 설치 (package.json이 있는 디렉토리에서 실행)
         
-    - name: Run Node script
-      run: 
-        node ../test-results.yml
-        
       env:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}  # GitHub Secrets에 저장된 TestRail User 사용

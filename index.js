@@ -4,6 +4,13 @@ import axios from 'axios';
 // 환경 변수 로드
 dotenv.config();
 
+
+// 환경 변수 확인
+console.log('TESTRAIL_API_KEY:', process.env.TESTRAIL_API_KEY);
+console.log('TESTRAIL_USER:', process.env.TESTRAIL_USER);
+console.log('TESTRAIL_URL:', process.env.TESTRAIL_URL);
+console.log('SLACK_WEBHOOK_URL:', process.env.SLACK_WEBHOOK_URL);
+
 // Base64로 사용자 인증 정보 인코딩
 const credentials = `${process.env.TESTRAIL_USER}:${process.env.TESTRAIL_API_KEY}`;
 const base64Credentials = Buffer.from(credentials).toString('base64');

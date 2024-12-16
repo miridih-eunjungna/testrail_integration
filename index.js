@@ -123,6 +123,8 @@ const testrailUrl = process.env.TESTRAIL_URL; // TestRail URL
 
 // 사용자 이름과 API 키를 Base64로 인코딩
 const auth = Buffer.from(`${testrailUser}:${testrailPassword}`).toString('base64');
+console.log(`Encoded Authorization: Basic ${auth}`);
+
 
 // HTTP 요청 옵션 정의
 const options = {

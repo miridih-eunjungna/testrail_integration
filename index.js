@@ -1,6 +1,5 @@
-require('dotenv').config();
-require('axios').config();
-
+import dotenv from 'dotenv';
+import axios from 'axios';
 
 // 환경 변수 로드
 dotenv.config();

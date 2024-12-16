@@ -97,7 +97,7 @@ const getFailedTestComments = async (runId) => {
 const getLatestTestRunId = async () => {
   try {
     // get_runs API를 사용하여 프로젝트의 실행 목록을 가져옵니다.
-    const url = `${process.env.TESTRAIL_URL}/get_runs/:5`;  // projectId 5
+    const url = `${process.env.TESTRAIL_URL}/get_runs/5`;  // projectId 5
     const response = await axios.get(url, {
       headers: {
         Authorization: `Basic ${base64Credentials}`,
@@ -114,6 +114,34 @@ const getLatestTestRunId = async () => {
     console.error('Error fetching latest test run ID:', error.response?.data || error.message);
   }
 };
+
+
+// 환경 변수로부터 사용자 정보 가져오기
+const testrailUser = process.env.TESTRAIL_USER; // TestRail 사용자 이름 (이메일)
+const testrailPassword = process.env.TESTRAIL_API_KEY; // TestRail API Key
+const testrailUrl = process.env.TESTRAIL_URL; // TestRail URL
+
+// 사용자 이름과 API 키를 Base64로 인코딩
+const auth = Buffer.from(`${testrailUser}:${testrailPassword}`).toString('base64');
+
+// HTTP 요청 옵션 정의
+const options = {
+    method: 'GET',
+    url: `${testrailUrl}/index.php?/api/v2/get_runs/:project_id`,
+    headers: {
+        'Authorization': `Basic ${auth}`, // Authorization 헤더 추가
+        'Content-Type': 'application/json'
+    }
+};
+
+// 요청 실행
+axios(options)
+    .then(response => {
+        console.log('Response:', response.data);
+    })
+    .catch(error => {
+        console.error('Error fetching latest test run ID:', error.response ? error.response.data : error.message);
+    });
 
 // 자동으로 가장 최신 runId를 가져와서 테스트 실행 정보 호출
 const fetchAndNotifyTestRun = async () => {

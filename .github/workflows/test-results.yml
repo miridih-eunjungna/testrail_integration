@@ -29,16 +29,14 @@ jobs:
     - name: Run TestRail Integration Script
       run: node index.js  # 작성한 스크립트 실행
 
+    - name: Send Slack Notification
+      run: |
+       curl -X POST -H "Content-type: application/json" \
+       --data '{"text":"TestRail Integration completed successfully!"}' $SLACK_WEBHOOK_URL  
+
       env:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}  # GitHub Secrets에 저장된 TestRail User 사용
         TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}  # GitHub Secrets에 저장된 TestRail URL 사용
-
-        
-    - name: Send Slack Notification
-      run: |
-        curl -X POST -H "Content-type: application/json" \
-        --data '{"text":"TestRail Integration completed successfully!"}' $SLACK_WEBHOOK_URL
-      env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # GitHub Secrets에 저장된 Slack Webhook URL 사용
 

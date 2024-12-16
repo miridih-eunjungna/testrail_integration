@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - testrail_4
+      - testrail_v3
   pull_request:
     branches:
       - main
-      - testrail_4
+      - testrail_v3
 
 jobs:
   testrail-integration:
@@ -32,7 +32,7 @@ jobs:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}
         TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        
 
     - name: Send Slack Notification
       run: |

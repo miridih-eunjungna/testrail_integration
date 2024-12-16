@@ -19,25 +19,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Node.js 버전 설정 (필요에 따라 수정)
+        node-version: '18'  # Node.js 최신 LTS 버전 사용
 
-    - name: Check TestRail Status
-      run: |
-        npm install  # 의존성 설치 (package.json이 있는 디렉토리에서 실행)
-        ls -al
-        cd node_modules
-        ls -al
-        
-        node $GITHUB_WORKSPACE/index.js
+    - name: Install dependencies
+      run: npm install  # 의존성 설치
 
-        console.log('Requesting TestRail API...');
-        const response = await axios.get(url, { headers });
-        console.log('Response:', response.data);  // 응답 데이터 출력
-
-        const path = require('path');
-        console.log('Current working directory:', process.cwd());
-        console.log('Absolute path to index.js:', path.resolve($GITHUB_WORKSPACE, 'testrail_integration/index.js'));
-
+    - name: Run TestRail Integration Script
+      run: node index.js  # 작성한 스크립트 실행
       env:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}  # GitHub Secrets에 저장된 TestRail User 사용

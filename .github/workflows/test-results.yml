@@ -32,7 +32,7 @@ jobs:
         TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
         TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}
         TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}
-        
+
 
     - name: Send Slack Notification
       run: |
@@ -45,7 +45,7 @@ jobs:
           console.log('Sending Slack message to:', process.env.SLACK_WEBHOOK_URL);  // Webhook URL 로그 출력
           axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage)
             .then(() => console.log('Message sent to Slack'))
-            .catch(error => console.error('Error sending message to Slack:', error));
+            
         "  .catch(error => console.error('Error sending message to Slack:', error));
                 "
       env:

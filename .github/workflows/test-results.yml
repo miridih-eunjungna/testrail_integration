@@ -36,9 +36,14 @@ jobs:
     
     - name: Send Slack Notification
       run: |
-        MESSAGE=$(cat slack_message.txt)
+        if [ -f slack_message.txt ]; then
+          MESSAGE=$(cat slack_message.txt)
+        else
+          MESSAGE="TestRail Integration encountered an error!"
+        fi
         curl -X POST -H "Content-type: application/json" \
-        --data "{\"text\": \"$MESSAGE\"}" $SLACK_WEBHOOK_URL
+        --data "{\"text\":\"$MESSAGE\"}" $SLACK_WEBHOOK_URL
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}    
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+       
 

@@ -10,7 +10,6 @@ console.log('TESTRAIL_USER:', process.env.TESTRAIL_USER);
 console.log('TESTRAIL_URL:', process.env.TESTRAIL_URL);
 console.log('SLACK_WEBHOOK_URL:', process.env.SLACK_WEBHOOK_URL);
 
-
 // Base64로 사용자 인증 정보 인코딩
 const credentials = `${process.env.TESTRAIL_USER}:${process.env.TESTRAIL_API_KEY}`;
 const base64Credentials = Buffer.from(credentials).toString('base64');
@@ -91,5 +90,62 @@ const getFailedTestComments = async (runId) => {
   }
 };
 
-// 특정 테스트 실행 정보 가져오기 (runId는 92로 설정)
-getTestRunDetails(87);
+// TestRail API에서 가장 최근 테스트 실행의 runId 가져오기
+
+const getLatestTestRunId = async () => {
+
+  try {
+
+    const url = `${process.env.TESTRAIL_URL}/get_runs/5`;  // projectId '1'은 예시입니다. 실제 프로젝트 ID로 변경
+
+    const response = await axios.get(url, {
+
+      headers: {
+
+        Authorization: `Basic ${base64Credentials}`,
+
+        'Content-Type': 'application/json',
+
+      },
+
+    });
+
+
+
+    const latestRunId = response.data.runs[0].id;  // 최신 실행의 runId 가져오기
+
+    console.log('Latest Run ID:', latestRunId);
+
+
+
+    return latestRunId;
+
+  } catch (error) {
+
+    console.error('Error fetching latest test run ID:', error.response?.data || error.message);
+
+  }
+
+};
+
+
+
+// 자동으로 가장 최신 runId를 가져와서 테스트 실행 정보 호출
+
+const fetchAndNotifyTestRun = async () => {
+
+  const runId = await getLatestTestRunId();
+
+  if (runId) {
+
+    await getTestRunDetails(runId);
+
+  }
+
+};
+
+
+
+// 자동 실행
+
+fetchAndNotifyTestRun();

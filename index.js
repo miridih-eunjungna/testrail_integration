@@ -4,6 +4,15 @@ import axios from 'axios';
 // 환경 변수 로드
 dotenv.config();
 
+// 환경 변수 검증
+const requiredEnvVars = ['TESTRAIL_USER', 'TESTRAIL_API_KEY', 'TESTRAIL_URL', 'SLACK_WEBHOOK_URL'];
+requiredEnvVars.forEach(varName => {
+  if (!process.env[varName]) {
+    console.error(`ERROR: Missing required environment variable: ${varName}`);
+    process.exit(1); // 필수 환경 변수 누락 시 종료
+  }
+});
+
 // Base64로 사용자 인증 정보 인코딩
 const credentials = `${process.env.TESTRAIL_USER}:${process.env.TESTRAIL_API_KEY}`;
 const base64Credentials = Buffer.from(credentials).toString('base64');
@@ -12,13 +21,13 @@ const base64Credentials = Buffer.from(credentials).toString('base64');
 const sendToSlack = async (testRunDetails, failedComments) => {
   try {
     const slackMessage = {
-      text: `Test Run Details:\n
-             Name: ${testRunDetails.name}\n
-             Passed: ${testRunDetails.passed_count}\n
-             Failed: ${testRunDetails.failed_count}\n
-             Blocked: ${testRunDetails.blocked_count}\n
-             URL: ${testRunDetails.url}\n
-             ${failedComments ? `Failed Comments:\n${failedComments}` : ''}`
+      text: `*Test Run Details:*\n
+             *Name:* ${testRunDetails.name}\n
+             *Passed:* ${testRunDetails.passed_count}\n
+             *Failed:* ${testRunDetails.failed_count}\n
+             *Blocked:* ${testRunDetails.blocked_count}\n
+             *URL:* ${testRunDetails.url}\n
+             ${failedComments ? `*Failed Comments:*\n${failedComments}` : ''}`
     };
 
     // Slack Webhook을 사용하여 메시지 전송

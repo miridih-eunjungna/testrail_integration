@@ -1,5 +1,5 @@
 {
-  "type": "module"
+  "type": "module",
   "name": "testrail-slack-integration_js",
   "version": "1.0.0",
   "description": "",

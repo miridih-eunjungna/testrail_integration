@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main  # main 브랜치에 push될 때마다 실행
-      - testrail_v6
+      - testrail_6
   pull_request:
     branches:
       - main  # main 브랜치에 PR이 생길 때마다 실행
-      - testrail_v6
+      - testrail_6
 
 jobs:
   testrail-integration:

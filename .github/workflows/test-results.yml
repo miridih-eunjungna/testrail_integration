@@ -23,10 +23,11 @@ jobs:
 
     - name: Check TestRail Status
       run: |
-        pwd
+        npm install  # 의존성 설치 (package.json이 있는 디렉토리에서 실행)
+        ls -al
+        cd node_modules
         ls -al
         
-        npm install  # 의존성 설치 (package.json이 있는 디렉토리에서 실행)
         node index.js
 
         console.log('Requesting TestRail API...');

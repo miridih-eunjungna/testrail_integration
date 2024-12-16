@@ -3,42 +3,49 @@ name: TestRail Integration
 on:
   push:
     branches:
-      - main          # main 브랜치에 push될 때 실행
-      - testrail_v2   # testrail_v2 브랜치에 push될 때 실행
+      - main
+      - testrail_4
   pull_request:
     branches:
-      - main          # main 브랜치에 PR이 생성될 때 실행
-      - testrail_v2   # testrail_v2 브랜치에 PR이 생성될 때 실행
+      - main
+      - testrail_4
 
 jobs:
   testrail-integration:
-    runs-on: ubuntu-latest  # GitHub Actions에서 사용할 환경 (Ubuntu)
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2  # 현재 저장소의 코드를 가져옴
+      uses: actions/checkout@v2
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'  # Node.js 최신 LTS 버전 사용
+        node-version: '18'
 
     - name: Install dependencies
-      run: npm install  # 의존성 설치
+      run: npm install
 
     - name: Run TestRail Integration Script
-      run: node index.js  # 작성한 스크립트 실행
-
+      run: node index.js
       env:
-        TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}  # GitHub Secrets에 저장된 TestRail API Key 사용
-        TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}  # GitHub Secrets에 저장된 TestRail User 사용
-        TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}  # GitHub Secrets에 저장된 TestRail URL 사용
+        TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
+        TESTRAIL_USER: ${{ secrets.TESTRAIL_USER }}
+        TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-        
     - name: Send Slack Notification
       run: |
-        curl -X POST -H "Content-type: application/json" \
-        --data '{"text":"TestRail Integration completed successfully!"}' $SLACK_WEBHOOK_URL
+        echo "SLACK_WEBHOOK_URL: $SLACK_WEBHOOK_URL"  # Webhook URL 출력하여 확인
+        node -e "
+          const axios = require('axios');
+          const slackMessage = {
+            text: 'Test Run Details:\\nName: TestRunName\\nPassed: 4\\nFailed: 1\\nBlocked: 0\\nURL: TestRunURL'
+          };
+          console.log('Sending Slack message to:', process.env.SLACK_WEBHOOK_URL);  # Webhook URL 로그 출력
+          axios.post(process.env.SLACK_WEBHOOK_URL, slackMessage)
+            .then(() => console.log('Message sent to Slack'))
+            .catch(error => console.error('Error sending message to Slack:', error));
+        "
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # GitHub Secrets에 저장된 Slack Webhook URL 사용
-
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # 환경 변수로 SLACK_WEBHOOK_URL 전달

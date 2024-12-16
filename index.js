@@ -97,7 +97,7 @@ const getFailedTestComments = async (runId) => {
 const getLatestTestRunId = async () => {
   try {
     // get_runs API를 사용하여 프로젝트의 실행 목록을 가져옵니다.
-    const url = `${process.env.TESTRAIL_URL}/get_runs/5`;  // projectId 5
+    const url = `${process.env.TESTRAIL_URL}/get_runs/:5`;  // projectId 5
     const response = await axios.get(url, {
       headers: {
         Authorization: `Basic ${base64Credentials}`,

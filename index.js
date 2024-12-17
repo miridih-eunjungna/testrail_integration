@@ -132,7 +132,7 @@ const options = {
     url: `${testrailUrl}/get_runs/5`,
     headers: {
         'Authorization': `Basic ${auth}`, // Authorization 헤더 추가
-        'Content-Type: application/json'
+        'Content-Type': 'application/json'
     }
 };
 

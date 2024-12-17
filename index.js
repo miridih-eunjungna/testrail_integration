@@ -136,6 +136,8 @@ const options = {
     }
 };
 
+console.log(`Encoded Authorization (Remote): ${auth}`);
+
 // 요청 실행
 axios(options)
     .then(response => {

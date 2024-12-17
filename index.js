@@ -129,7 +129,7 @@ console.log(`Encoded Authorization: Basic ${auth}`);
 // HTTP 요청 옵션 정의
 const options = {
     method: 'GET',
-    url: `${testrailUrl}/index.php?/api/v2/get_runs/5`,
+    url: `${testrailUrl}/get_runs/5`,
     headers: {
         'Authorization': `Basic ${auth}`, // Authorization 헤더 추가
         'Content-Type': 'application/json'
